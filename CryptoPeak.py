@@ -1,4 +1,5 @@
 import importlib
+from socket import timeout
 import subprocess
 
 #check pip installation
@@ -95,9 +96,10 @@ def startButtonlick():
     orderAmount = orderAmount_entry.get("1.0", tk.END).strip()
     percGain = percGain_entry.get("1.0", tk.END).strip()
     bodyFactor = bodyFactor_entry.get("1.0", tk.END).strip()
+    timeOut = timeOut_entry.get("1.0", tk.END).strip()
     
-    if not checkNumber(percPriceChange) or not checkNumber(waitingSecondForChange) or not checkNumber(bodyFactor):
-        messagebox.showerror("Error", "Please compile and enter only number in max orders, order amount, perc gain, body factor") 
+    if not checkNumber(percPriceChange) or not checkNumber(waitingSecondForChange) or not checkNumber(bodyFactor) or not checkNumber(timeOut):
+        messagebox.showerror("Error", "Please compile and enter only number in max orders, order amount, perc gain, body factor, timeout") 
         return
 
     if percPriceChange == "" or waitingSecondForChange == "":
@@ -105,14 +107,14 @@ def startButtonlick():
         return 
     
     percPriceChange = float(percPriceChange)
+    funzioni.timeOut = int(timeOut)
     waitingSecondForChange = int(waitingSecondForChange)
+    bodyFactor = int(bodyFactor)  
     
     if waitingSecondForChange>55 or waitingSecondForChange<5:
         messagebox.showerror("Error", "The seconds change value must be from 5 to 55")
-        return  
-        
-    bodyFactor = int(bodyFactor)
-    
+        return
+
     if bodyFactor<1:
         messagebox.showerror("Error", "Factor value must be >0")
         return          
@@ -137,7 +139,7 @@ def startButtonlick():
     con = sqlite3.connect("cryptoDB.db")
     cursor = con.cursor()
 
-    cursor.execute(f"UPDATE credenziali SET apiKey='{apiKey}', apiSecret='{apiSecret}', apiPassphrase='{apiPassphrase}', personalEmail='{funzioni.personalEmail}', googleEmail='{funzioni.googleEmail}', googleAppPassword='{funzioni.googleAppPassword}', onlyCrypto='{text}'")
+    cursor.execute(f"UPDATE credenziali SET apiKey='{apiKey}', apiSecret='{apiSecret}', apiPassphrase='{apiPassphrase}', personalEmail='{funzioni.personalEmail}', googleEmail='{funzioni.googleEmail}', googleAppPassword='{funzioni.googleAppPassword}', onlyCrypto='{text}', timeOut='{timeOut}'")
     con.commit()
     
     cursor.close()
@@ -171,7 +173,7 @@ onlyCrypto = []
 #main windows build
 window = tk.Tk()
 window.title("Crypto peak detecting")
-window.geometry("1115x700")
+window.geometry("1115x750")
 window.iconbitmap('trb.ico')
 window.update()
 
@@ -277,7 +279,6 @@ def readOpenBrowserVar():
     
 chkOpenBrowser = tk.Checkbutton(window, variable=openBrowserVar, command=readOpenBrowserVar)
 chkOpenBrowser.place(x=210, y=top-2)
-
 top+=height+space
 
 #Send email
@@ -305,10 +306,16 @@ def readSendEmailVar():
             messagebox.showerror("Error", "If you want to receive emails, it is essential to complete all the parameters associated with email")
             sendEmailVar.set(False)
         
-
 chkSendEmail = tk.Checkbutton(window, variable=sendEmailVar, command=readSendEmailVar)
 chkSendEmail.place(x=210, y=top-2)
 
+top+=height+space*2
+
+#TimeOut operations
+label1 = tk.Label(window, text="Request timeout", anchor="w")
+label1.place(x=10, y=top, w=90, h=height)
+timeOut_entry = tk.Text(window, width=580)
+timeOut_entry.place(x=110, y=top, w=20, h=height)
 top+=height+space*2
 
 #Start startButton
@@ -343,7 +350,7 @@ personalEmail_entry.insert(tk.END, row[3])
 googleEmail_entry.insert(tk.END, row[4]) 
 googleAppPassword_entry.insert(tk.END, row[5])
 onlyCrypto_entry.insert(tk.END, row[6])
-
+timeOut_entry.insert(tk.END, row[7])
 
 #client init
 clientKucoin = '' 
@@ -364,7 +371,7 @@ def makeOrder(symbol,price):
     
     _percGain = 1+((1/100)*percGain) 
     
-    orderBuy = clientKucoin.orderMarketBuy(symbol,orderAmount,3)
+    orderBuy = clientKucoin.orderMarketBuy(symbol,orderAmount)
                 
     if orderBuy != None:
         orderId = orderBuy['orderId']
@@ -377,7 +384,7 @@ def makeOrder(symbol,price):
     buyingPrice=0 
     conta=0
     while True:
-        orderData = clientKucoin.getOrder(orderId,3)
+        orderData = clientKucoin.getOrder(orderId)
                     
         if len(orderData)>0:
                
@@ -397,7 +404,7 @@ def makeOrder(symbol,price):
             priceVendita = math.floor((buyingPrice*_percGain)*decimalCount(dati['price']))/decimalCount(dati['price'])
             quantita = math.floor(quantita*decimalCount(dati['size']))/decimalCount(dati['size'])
             
-            orderSellLimit = clientKucoin.orderMarketSellLimit(symbol,quantita,priceVendita,3)
+            orderSellLimit = clientKucoin.orderMarketSellLimit(symbol,quantita,priceVendita)
             del orderData
             break
             
@@ -470,11 +477,11 @@ def start():
             
         #Add symbol and priceBefore to the dict1
         cryptoList = clientKucoin.allTickers()
-        
         if cryptoList==None:
             date =datetime.datetime.now().strftime("%d-%m-%Y - %H:%M.%S")
             listbox.insert(tk.END, f"{date} - Error get Kucoin price list")
-            listbox.yview(tk.END)            
+            listbox.yview(tk.END)  
+            time.sleep(1)
             continue
         
         for data in cryptoList['ticker']:
@@ -501,7 +508,8 @@ def start():
         if cryptoList==None:
             date =datetime.datetime.now().strftime("%d-%m-%Y - %H:%M.%S")
             listbox.insert(tk.END, f"{date} - Error get Kucoin price list")
-            listbox.yview(tk.END)            
+            listbox.yview(tk.END)  
+            time.sleep(1)
             continue
         
         for data in cryptoList['ticker']:
