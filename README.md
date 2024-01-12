@@ -2,7 +2,7 @@
 
 ## Overview
 
-This software is designed to identify price spikes in cryptocurrency within the M1 time frame. It can be utilized on both Windows (download the Zip package for Windows) and Linux (run CryptoPeak.py, keeping all files in the same folder). By adjusting various settings, users can establish an identification range to achieve the best entry point.
+This software is designed to identify price spikes in cryptocurrency within the M1 time frame. It can be utilized on both Windows (download the Zip package for Windows) and Linux (run CryptoPeak.py, keeping all files in the same folder). By adjusting various settings, users can establish an identification range to achieve the best entry point. Whenever a price spike is detected, your PC will emit a sound. If you have enabled the options, you can also receive emails and automatically open the Kucoin webpage, where you can view the cryptocurrency that triggered the spike and you can then decide whether to make the purchase. Additionally, the program can be delegated to execute buy and sell orders on your behalf.
 
 ## Requirements
 1. You need to have an account on KuCoin
