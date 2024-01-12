@@ -110,6 +110,8 @@ def startButtonlick():
     if waitingSecondForChange>55 or waitingSecondForChange<5:
         messagebox.showerror("Error", "The seconds change value must be from 5 to 55")
         return  
+        
+    bodyFactor = int(bodyFactor)
     
     if bodyFactor<1:
         messagebox.showerror("Error", "Factor value must be >0")
