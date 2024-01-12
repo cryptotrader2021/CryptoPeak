@@ -4,6 +4,11 @@
 
 This software is designed to identify price spikes in cryptocurrency within the M1 time frame. It can be utilized on both Windows (download the Zip package for Windows) and Linux (run CryptoPeak.py, keeping all files in the same folder). By adjusting various settings, users can establish an identification range to achieve the best entry point.
 
+## Requirements
+1. You need to have an account on KuCoin
+2. You must obtain an API key, API secret, and API passphrase, enable them for spot trading, and secure them by restricting access to only your IP address, which must be a static IP
+3. To receive emails, you will need to obtain the App Password provided by Google and associate it with your email address, which you should enter in the corresponding field of the software. Additionally, you can use another email address to receive notifications, or you can use the same address
+
 ## Getting Started
 
 1. **Windows:** Download the Zip package for Windows abd run CryptoPeak.exe
