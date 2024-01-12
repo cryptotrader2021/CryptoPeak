@@ -47,7 +47,7 @@ Before using the automatic order function, it is strongly recommended to conduct
 
 ## Caution
 
-Checkboxes for "Browser Open" and "Send Email" activate or deactivate the respective functions. "Browser Open" opens the Kucoin link to view the cryptocurrency that caused the spike, useful when automatic orders are disabled. Caution: Setting a too low Percentage Change may open many web pages and send numerous emails. Exercise caution especially if not using "Symbol to Monitor," which limits the analysis to a specific group of cryptocurrencies. Generally, a Percentage Change value >1% and a Factor value of at least 2 are recommended, especially without using "Symbol to Monitor."
+Checkboxes for "Browser Open" and "Send Email" activate or deactivate the respective functions. "Browser Open" opens the Kucoin link to view the cryptocurrency that caused the spike, useful when automatic orders are disabled. Setting a too low Percentage Change may open many web pages and send numerous emails. Exercise caution especially if not using "Symbol to Monitor," which limits the analysis to a specific group of cryptocurrencies. Generally, a Percentage Change value >1% and a Factor value of at least 2 are recommended, especially without using "Symbol to Monitor."
 
 ## System Requirements
 
