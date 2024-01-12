@@ -26,7 +26,7 @@ class Client:
             "KC-API-PASSPHRASE": self.passphrase,
             "KC-API-KEY-VERSION": "2"
         }
-        response = requests.request('get', url, headers=headers,timeout=TimeOut)
+        response = requests.request('get', url, headers=headers,timeout=timeOut)
         if response.json()['code']!='200000':
             print(f"\nErrore get_symbol_ticker: {response.json()}")
             return None
@@ -199,7 +199,7 @@ class Client:
             print(f'Error orderMarketBuy: {e}') 
             return None
     
-    def getOrder(self,orderId,TimeOut):
+    def getOrder(self,orderId):
         url = f"https://api.kucoin.com/api/v1/fills?orderId={orderId}"
 
         now = int(time.time() * 1000)
@@ -214,7 +214,7 @@ class Client:
             "KC-API-KEY-VERSION": "2"
         }
         try:
-            response = requests.request('get', url, headers=headers,timeout=TimeOut)
+            response = requests.request('get', url, headers=headers,timeout=timeOut)
             if response.json()['code']!='200000':
                 print(f"\nErrore estrazione dati ordine {orderId}, code: "+response.json()['code'])
                 return None
