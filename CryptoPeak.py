@@ -145,11 +145,9 @@ def startButtonlick():
     cursor.close()
     con.close()
     
-    
     if startThread==False:
         startThread=True
         startButton.config(text="Stop monitoring") 
-        
     else:
         startThread=False
         startButton.config(text="Start monitoring")
@@ -410,7 +408,7 @@ def makeOrder(symbol,price):
             
         time.sleep(0.5)
         conta+=1
-        if conta==50:
+        if conta==5:
             date =datetime.datetime.now().strftime("%d-%m-%Y - %H:%M.%S")
             listbox.insert(tk.END, f"{date} - Failed attempt to place a sell order of {symbol}, please manually place a sell order on KuCoin at soon possible!")
             listbox.yview(tk.END)
@@ -470,7 +468,7 @@ def start():
 
         secondNow = datetime.datetime.now().second
         
-        while secondNow!=0 and startThread:
+        while secondNow!=0:
             statusLabel.config(text=f"STATUS: Waiting {59-secondNow} seconds for get open price list")            
             time.sleep(0.5)
             secondNow = datetime.datetime.now().second
@@ -494,11 +492,11 @@ def start():
                         cursor.execute("INSERT INTO simboli (symbol, priceBefore) VALUES (?, ?)", (symbol, price)) 
         con.commit()
         
-        while secondNow==0 and startThread:
+        while secondNow==0:
             secondNow = datetime.datetime.now().second
             time.sleep(0.5)
         
-        while secondNow!=0 and startThread:
+        while secondNow!=0:
             statusLabel.config(text=f"STATUS: Waiting {59-secondNow} seconds for get close price list")            
             time.sleep(0.5)
             secondNow = datetime.datetime.now().second
@@ -527,12 +525,12 @@ def start():
                             con.commit()
                          
         secondNow = datetime.datetime.now().second
-        while secondNow==0 and startThread:
+        while secondNow==0:
             secondNow = datetime.datetime.now().second
             time.sleep(0.25)
             
         #wait for waitingSecondForChange and check for condition price
-        while secondNow<waitingSecondForChange and startThread:
+        while secondNow<waitingSecondForChange:
             statusLabel.config(text=f"STATUS: Waiting {waitingSecondForChange-secondNow} seconds for peak check")            
             time.sleep(0.5)
             secondNow = datetime.datetime.now().second
@@ -583,6 +581,7 @@ def start():
                                     if sendEmail:
                                         statusLabel.config(text="STATUS: ending email")
                                         funzioni.send_email("Price peak detected", f"The crypto {symbol} has experienced a price increase of {_percPriceChange}%")
+                                        
         if not startThread:
             listbox.insert(tk.END,"##### End scanning #####")
             listbox.yview(tk.END)
