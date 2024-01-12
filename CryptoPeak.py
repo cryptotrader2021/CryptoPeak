@@ -1,4 +1,4 @@
-﻿import importlib
+import importlib
 import subprocess
 
 #check pip installation
@@ -169,7 +169,7 @@ onlyCrypto = []
 #main windows build
 window = tk.Tk()
 window.title("Crypto peak detecting")
-window.geometry("1115x670")
+window.geometry("1115x700")
 window.iconbitmap('trb.ico')
 window.update()
 
