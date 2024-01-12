@@ -151,7 +151,7 @@ def startButtonlick():
     else:
         startThread=False
         startButton.config(text="Start monitoring")
-        statusLabel.config(text="STATUS: End scanning") 
+        listbox.insert(tk.END, f"### End of process in progress, waiting for end last cycle ###")
 
 print("***************** AUTOMATED CRYPTO TRADING PRICE PEAK INTERCEPTOR *******************")
 
