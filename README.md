@@ -11,7 +11,7 @@ This software is designed to identify price spikes in cryptocurrency within the 
 
 ## Getting Started
 
-1. **Windows:** Download the Zip package for Windows abd run CryptoPeak.exe
+1. **Windows:** Download the Zip package for Windows and run CryptoPeak.exe
 2. **Linux:** Download all file and keeping in the same folder, run `CryptoPeak.py`
 
 ## Usage
